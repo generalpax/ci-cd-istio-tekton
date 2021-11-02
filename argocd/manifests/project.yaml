@@ -18,17 +18,3 @@ spec:
       kind: "*"
   sourceRepos:
     - "git@github.com:generalpax/ci-cd-istio-tekton.git"
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: cicd-bookinfo-repo-creds
-  namespace: cicd-bookinfo
-  labels:
-    argocd.argoproj.io/secret-type: repo-creds
-stringData:
-  url: git@github.com:generalpax/ci-cd-istio-tekton.git
-  sshPrivateKey: |
-    -----BEGIN OPENSSH PRIVATE KEY-----
-    ...
-    -----END OPENSSH PRIVATE KEY-----

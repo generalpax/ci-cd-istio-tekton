@@ -1,18 +1,21 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  annotations:
-    openshift.io/host.generated: "true"
-  name: cicd-bookinfo
+  name: cicd-bookinfo-argo-server
   namespace: cicd-bookinfo
+  labels:
+    app.kubernetes.io/managed-by: cicd-bookinfo-argo
+    app.kubernetes.io/name: cicd-bookinfo-argo-server
+    app.kubernetes.io/part-of: argocd
 spec:
-  host: cicd-bookinfo.apps.fuchs.io4da.com
+  host: cicd-bookinfo-argocd.apps.fuchs.io4da.com
   to:
     kind: Service
-    name: cicd-bookinfo
+    name: cicd-bookinfo-argo-server
+    weight: 100
   port:
-    targetPort: http
+    targetPort: https
   tls:
-    termination: edge
+    termination: passthrough
     insecureEdgeTerminationPolicy: Redirect
   wildcardPolicy: None

@@ -36,6 +36,40 @@ oc apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/a
 Deploy the OCP Argo CD Operator to Openshift-Operators namespace and install default instance in the same namespace. 
 
 [Installation steps for Argo CD Operator](https://argocd-operator.readthedocs.io/en/latest/install/openshift/)
+
+Deploy github repo credentials
+
+```sh
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cicd-bookinfo-repo-creds
+  namespace: cicd-bookinfo
+  labels:
+    argocd.argoproj.io/secret-type: repo-creds
+stringData:
+  url: git@github.com:generalpax/ci-cd-istio-tekton.git
+  sshPrivateKey: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    ...
+    -----END OPENSSH PRIVATE KEY-----
+```
+
+and add it to the ArgoCD Operator CM data:
+
+```sh
+data:
+  admin.enabled: 'true'
+  statusbadge.enabled: 'false'
+  resource.exclusions: ''
+  ga.trackingid: ''
+  repositories: |
+    - sshPrivateKeySecret:
+        key: sshPrivateKey
+        name: cicd-bookinfo-repo-creds
+      url: "git@github.com:generalpax/ci-cd-istio-tekton.git"
+```
 ## Demo
 
 #### Service Accounts/Authentication
