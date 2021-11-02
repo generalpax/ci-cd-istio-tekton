@@ -1,0 +1,83 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cicd-bookinfo-cd
+  namespace: cicd-bookinfo
+spec:
+  destination:
+    namespace: cicd-bookinfo
+    server: https://kubernetes.default.svc
+  project: cicd-bookinfo
+  source:
+    directory:
+      recurse: true
+    path: argocd/manifests
+    repoURL: git@github.com:generalpax/ci-cd-istio-tekton.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    retry:
+      limit: 1 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 3m # the maximum amount of time allowed for the backoff strategy
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cicd-bookinfo-ci
+  namespace: cicd-bookinfo
+spec:
+  destination:
+    namespace: cicd-bookinfo
+    server: https://kubernetes.default.svc
+  project: cicd-bookinfo
+  source:
+    directory:
+      recurse: true
+    path: tekton/manifests
+    repoURL: git@github.com:generalpax/ci-cd-istio-tekton.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    retry:
+      limit: 1 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 3m # the maximum amount of time allowed for the backoff strategy
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cicd-bookinfo-istio
+  namespace: cicd-bookinfo
+spec:
+  destination:
+    namespace: cicd-bookinfo
+    server: https://kubernetes.default.svc
+  project: cicd-bookinfo
+  source:
+    directory:
+      recurse: true
+    path: istio/manifests
+    repoURL: git@github.com:generalpax/ci-cd-istio-tekton.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    retry:
+      limit: 1 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 3m # the maximum amount of time allowed for the backoff strategy

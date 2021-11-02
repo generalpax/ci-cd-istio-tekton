@@ -1,0 +1,18 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  annotations:
+    openshift.io/host.generated: "true"
+  name: cicd-bookinfo
+  namespace: cicd-bookinfo
+spec:
+  host: cicd-bookinfo.apps.fuchs.io4da.com
+  to:
+    kind: Service
+    name: cicd-bookinfo
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
