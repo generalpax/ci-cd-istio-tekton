@@ -1,2 +1,3 @@
 secret.yaml
 .DS_Store
+tekton/auth/secrets.yaml

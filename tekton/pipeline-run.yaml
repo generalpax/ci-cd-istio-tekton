@@ -22,4 +22,4 @@ spec:
   workspaces:
     - name: build-deploy-workspace
       persistentVolumeClaim:
-        claimName: joel-ci-cd
+        claimName: cicd-bookinfo

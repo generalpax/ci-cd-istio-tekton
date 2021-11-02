@@ -74,8 +74,8 @@ spec:
       cd $(workspaces.source.path)/ci-cd-istio-tekton
       echo $(git status)
       cat ~/.gitconfig
-      git config --global user.email "joelkaplan1@gmail.com"
-      git config --global user.name "Joel Kaplan"
+      git config --global user.email "sophia.katzy@gmail.com"
+      git config --global user.name "Sophia Katzy"
       git add .
       MESSAGE="Automated commit by Tekton: $(params.SERVICE_NAME):$(params.SERVICE_VERSION)"
       git commit -m "$MESSAGE"
@@ -85,5 +85,5 @@ spec:
   #   securityContext:
   #     privileged: true
   #   script: |
-  #     oc apply -f $(workspaces.source.path)/ci-cd-istio-tekton/kubernetes/deployment.yaml -n joel-ci-cd
-  #     # oc apply -f $(workspaces.source.path)/ci-cd-istio-tekton/istio/canary.yaml -n joel-ci-cd
+  #     oc apply -f $(workspaces.source.path)/ci-cd-istio-tekton/kubernetes/deployment.yaml -n cicd-bookinfo
+  #     # oc apply -f $(workspaces.source.path)/ci-cd-istio-tekton/istio/canary.yaml -n cicd-bookinfo
