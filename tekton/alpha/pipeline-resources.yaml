@@ -6,6 +6,6 @@ spec:
   type: git
   params:
     - name: url
-      value: https://github.com/jkapl/ci-cd-tekton-istio
+      value: https://github.com/generalpax/ci-cd-tekton-istio
     - name: revision
       value: master

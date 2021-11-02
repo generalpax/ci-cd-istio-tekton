@@ -7,6 +7,6 @@ spec:
     name: git-clone
   params:
     - name: GIT_URL
-      value: https://github.com/jkapl/ci-cd-istio-tekton
+      value: https://github.com/generalpax/ci-cd-istio-tekton
     - name: REVISION
       value: master

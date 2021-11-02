@@ -6,7 +6,7 @@ spec:
   params:
     - name: GIT_URL
       type: string 
-      default: https://github.com/jkapl/ci-cd-istio-tekton
+      default: https://github.com/generalpax/ci-cd-istio-tekton
     - name: REVISION
       type: string  
       default: master
