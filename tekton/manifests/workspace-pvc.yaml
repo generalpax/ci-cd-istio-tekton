@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: cicd-bookinfo
 spec:
-  storageClassName: slow
+  storageClassName: gp2
   accessModes:
     - ReadWriteOnce
   resources:
