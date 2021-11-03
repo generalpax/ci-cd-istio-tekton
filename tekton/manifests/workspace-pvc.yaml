@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: cicd-bookinfo
 spec:
-  #storageClassName: rook-cephfs
+  storageClassName: slow
   accessModes:
     - ReadWriteOnce
   resources:

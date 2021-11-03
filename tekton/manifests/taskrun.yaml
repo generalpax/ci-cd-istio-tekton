@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
-  generateName: mytaskrun-
+  name: task-cicd-bookinfo-git-clone
 spec:
   taskRef:
     name: git-clone
