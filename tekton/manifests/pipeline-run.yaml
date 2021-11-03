@@ -3,7 +3,7 @@ kind: PipelineRun
 metadata:
   name: pipeline-run-cicd-bookinfo
 spec:
-  serviceAccountName: build-bot
+  #serviceAccountName: pipeline
   pipelineRef:
     name: build-deploy-canary
   params:
