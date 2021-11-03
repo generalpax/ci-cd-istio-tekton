@@ -7,16 +7,16 @@ spec:
     - name: build-deploy-workspace
   params:
     - name: GIT_URL
-      type: string 
+      type: string
       default: https://github.com/generalpax/ci-cd-istio-tekton
     - name: BUILDER_IMAGE
       type: string
       default: https://quay.io/buildah/stable
     - name: REVISION
-      type: string  
+      type: string
       default: master
     - name: SERVICE_NAME
-      type: string  
+      type: string
       default: productpage
     - name: SERVICE_VERSION
       type: string
@@ -27,8 +27,9 @@ spec:
   tasks:
     - name: git-clone
       taskRef:
+        kind: ClusterTask
         name: git-clone
-      params: 
+      params:
         - name: GIT_URL
           value: "$(params.GIT_URL)"
         - name: REVISION
@@ -54,7 +55,7 @@ spec:
     - name: canary-rollout
       taskRef:
         name: canary-rollout
-      params: 
+      params:
         - name: SERVICE_NAME
           value: "$(params.SERVICE_NAME)"
         - name: IMAGE_REPOSITORY
@@ -66,5 +67,3 @@ spec:
           workspace: build-deploy-workspace
       runAfter:
         - build-service
-      
-        
