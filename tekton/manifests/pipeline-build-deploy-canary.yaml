@@ -39,7 +39,7 @@ spec:
         - name: deleteExisting
           value: "true"
       workspaces:
-        - name: source
+        - name: output
           workspace: build-deploy-workspace
     - name: build-service
       taskRef:
