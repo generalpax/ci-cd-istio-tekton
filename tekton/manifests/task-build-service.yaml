@@ -4,7 +4,7 @@ metadata:
   name: build-service
 spec:
   workspaces:
-    - name: source
+    - name: output
 
   params:
     - name: IMAGE_REPOSITORY
@@ -38,7 +38,7 @@ spec:
   steps:
     - name: build
       image: $(params.BUILDER_IMAGE)
-      # workingDir: $(workspaces.source.path)
+      # workingDir: $(workspaces.output.path)
       # command: ['buildah', 'bud', '--format=$(params.FORMAT)', '--tls-verify=$(params.TLSVERIFY)', '--no-cache', '-f', '$(params.DOCKERFILE)', '-t', '$(params.IMAGE)', '$(params.CONTEXT)']
       volumeMounts:
         - name: varlibcontainers
@@ -46,7 +46,7 @@ spec:
       #securityContext:
       #  privileged: true
       script: |
-        cd $(workspaces.source.path)/ci-cd-istio-tekton/src/$(params.SERVICE_NAME)
+        cd $(workspaces.output.path)/ci-cd-istio-tekton/src/$(params.SERVICE_NAME)
         buildah bud --format=$(params.FORMAT) --tls-verify=$(params.TLSVERIFY) --no-cache -f $(params.DOCKERFILE) -t $(params.IMAGE_REPOSITORY)/$(params.SERVICE_NAME):$(params.SERVICE_VERSION) $(params.CONTEXT)
 
     - name: push
@@ -54,7 +54,7 @@ spec:
       env:
         - name: REGISTRY_AUTH_FILE
           value: /home/builder/.docker/config.json
-      # workingDir: $(workspaces.source)
+      # workingDir: $(workspaces.output)
       # command: ['buildah', 'push', '--tls-verify=$(params.TLSVERIFY)', '$(params.IMAGE)']
       volumeMounts:
         - name: varlibcontainers
@@ -62,7 +62,7 @@ spec:
       #securityContext:
       #  privileged: true
       script: |
-        cd $(workspaces.source.path)/ci-cd-istio-tekton/src/$(params.SERVICE_NAME)
+        cd $(workspaces.output.path)/ci-cd-istio-tekton/src/$(params.SERVICE_NAME)
         cat ~/.docker/config.json
         buildah push --authfile ~/.docker/config.json --tls-verify=$(params.TLSVERIFY) $(params.IMAGE_REPOSITORY)/$(params.SERVICE_NAME):$(params.SERVICE_VERSION)
 
