@@ -30,10 +30,16 @@ spec:
         kind: ClusterTask
         name: git-clone
       params:
-        - name: GIT_URL
+        - default: https://github.com/generalpax/ci-cd-istio-tekton
+          name: GIT_URL
           value: "$(params.GIT_URL)"
         - name: REVISION
           value: "$(params.REVISION)"
+          default: master
+        - name: subdirectory
+          value: ""
+        - name: deleteExisting
+          value: "true"
       workspaces:
         - name: source
           workspace: build-deploy-workspace
