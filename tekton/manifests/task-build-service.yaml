@@ -4,7 +4,7 @@ metadata:
   name: build-service
 spec:
   workspaces:
-    - name: cicd-bookinfo
+    - name: source
 
   params:
     - name: IMAGE_REPOSITORY
