@@ -1,3 +1,4 @@
 secret.yaml
 .DS_Store
 tekton/auth/secrets.yaml
+argocd/manifests/repocreds.yaml
