@@ -4,7 +4,7 @@ metadata:
   name: build-service
 spec:
   workspaces:
-    - name: source
+    - name: output
 
   params:
     - name: IMAGE_REPOSITORY
@@ -38,7 +38,7 @@ spec:
   steps:
     - name: build
       image: $(params.BUILDER_IMAGE)
-      workingDir: $(workspaces.source.path)
+      workingDir: $(workspaces.output.path)
       volumeMounts:
         - name: varlibcontainers
           mountPath: /var/lib/containers
@@ -50,7 +50,7 @@ spec:
       env:
         - name: REGISTRY_AUTH_FILE
           value: /home/builder/.docker/config.json
-      workingDir: $(workspaces.source.path)
+      workingDir: $(workspaces.output.path)
       volumeMounts:
         - name: varlibcontainers
           mountPath: /var/lib/containers
@@ -59,7 +59,7 @@ spec:
     - image: $(params.BUILDER_IMAGE)
       name: digest-to-results
       script: >-
-        cat $(workspaces.source.path)/image-digest | tee
+        cat $(workspaces.output.path)/image-digest | tee
         /tekton/results/IMAGE_DIGEST
   volumes:
     - name: varlibcontainers
