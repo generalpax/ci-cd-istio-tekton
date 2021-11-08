@@ -43,6 +43,7 @@ spec:
         - name: varlibcontainers
           mountPath: /var/lib/containers
       script: |
+        cd src/$(params.SERVICE_NAME)
         buildah bud --format=$(params.FORMAT) --tls-verify=$(params.TLSVERIFY) --no-cache -f $(params.DOCKERFILE) -t $(params.IMAGE_REPOSITORY)/$(params.SERVICE_NAME):$(params.SERVICE_VERSION) $(params.CONTEXT)
 
     - name: push
@@ -55,6 +56,7 @@ spec:
         - name: varlibcontainers
           mountPath: /var/lib/containers
       script: |
+        cd src/$(params.SERVICE_NAME)
         buildah push --authfile ~/.docker/config.json --tls-verify=$(params.TLSVERIFY) $(params.IMAGE_REPOSITORY)/$(params.SERVICE_NAME):$(params.SERVICE_VERSION)
     - image: $(params.BUILDER_IMAGE)
       name: digest-to-results

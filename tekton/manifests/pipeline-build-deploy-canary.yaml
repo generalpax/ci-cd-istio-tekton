@@ -52,7 +52,7 @@ spec:
         - name: SERVICE_VERSION
           value: "$(params.SERVICE_VERSION)"
       workspaces:
-        - name: source
+        - name: output
           workspace: build-deploy-workspace
       runAfter:
         - git-clone
