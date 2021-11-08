@@ -4,7 +4,7 @@ metadata:
   name: build-service
 spec:
   workspaces:
-    - name: output
+    - name: source
 
   params:
     - name: IMAGE_REPOSITORY
@@ -38,15 +38,11 @@ spec:
   steps:
     - name: build
       image: $(params.BUILDER_IMAGE)
-      # workingDir: $(workspaces.output.path)
-      # command: ['buildah', 'bud', '--format=$(params.FORMAT)', '--tls-verify=$(params.TLSVERIFY)', '--no-cache', '-f', '$(params.DOCKERFILE)', '-t', '$(params.IMAGE)', '$(params.CONTEXT)']
+      workingDir: $(workspaces.source.path)
       volumeMounts:
         - name: varlibcontainers
           mountPath: /var/lib/containers
-      #securityContext:
-      #  privileged: true
       script: |
-        cd $(workspaces.output.path)/src/$(params.SERVICE_NAME)
         buildah bud --format=$(params.FORMAT) --tls-verify=$(params.TLSVERIFY) --no-cache -f $(params.DOCKERFILE) -t $(params.IMAGE_REPOSITORY)/$(params.SERVICE_NAME):$(params.SERVICE_VERSION) $(params.CONTEXT)
 
     - name: push
@@ -54,18 +50,17 @@ spec:
       env:
         - name: REGISTRY_AUTH_FILE
           value: /home/builder/.docker/config.json
-      # workingDir: $(workspaces.output)
-      # command: ['buildah', 'push', '--tls-verify=$(params.TLSVERIFY)', '$(params.IMAGE)']
+      workingDir: $(workspaces.source.path)
       volumeMounts:
         - name: varlibcontainers
           mountPath: /var/lib/containers
-      #securityContext:
-      #  privileged: true
       script: |
-        cd $(workspaces.output.path)/src/$(params.SERVICE_NAME)
-        cat ~/.docker/config.json
         buildah push --authfile ~/.docker/config.json --tls-verify=$(params.TLSVERIFY) $(params.IMAGE_REPOSITORY)/$(params.SERVICE_NAME):$(params.SERVICE_VERSION)
-
+    - image: $(params.BUILDER_IMAGE)
+      name: digest-to-results
+      script: >-
+        cat $(workspaces.source.path)/image-digest | tee
+        /tekton/results/IMAGE_DIGEST
   volumes:
     - name: varlibcontainers
       emptyDir: {}
